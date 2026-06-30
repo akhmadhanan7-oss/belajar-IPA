@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kelas Inspiran – Blog Pembelajaran IPA Kelas 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* =================================================================
+   RESET & ROOT VARIABLES
+   Palet warna bertema sains: biru langit, hijau alam, kuning matahari
+   ================================================================= */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --biru:#2563eb;--biru2:#3b82f6;--biru-muda:#dbeafe;
+  --hijau:#16a34a;--hijau2:#22c55e;--hijau-muda:#dcfce7;
+  --kuning:#f59e0b;--kuning-muda:#fef9c3;
+  --ungu:#7c3aed;--ungu-muda:#ede9fe;
+  --merah:#ef4444;--orange:#f97316;--pink:#ec4899;--cyan:#0891b2;
+  --bg:#f0f7ff;--putih:#fff;--teks:#0c2d57;--abu:#6b7280;--border:#e5e7eb;
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:#1f2937;min-height:100vh;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:'Nunito',sans-serif;}
+
+/* PAGE SYSTEM — hanya satu .page yang tampil pada satu waktu (SPA sederhana) */
+.page{display:none;}
+.page.active{display:block;}
+
+/* =================================================================
+   NAVBAR
+   ================================================================= */
+nav{background:#fff;box-shadow:0 2px 12px rgba(37,99,235,.10);position:sticky;top:0;z-index:200;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+.logo{display:flex;align-items:center;gap:8px;cursor:pointer;}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--biru),#1d4ed8);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;}
+.logo-text{font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--biru);}
+.logo-text span{color:var(--kuning);}
+.nav-links{display:flex;gap:.3rem;align-items:center;}
+.nav-links button{background:none;border:none;font-weight:700;font-size:.88rem;color:var(--abu);padding:7px 14px;border-radius:8px;transition:all .2s;}
+.nav-links button:hover,.nav-links button.active{background:var(--biru-muda);color:var(--biru);}
+.nav-cta{background:linear-gradient(135deg,var(--biru),#1d4ed8)!important;color:#fff!important;border-radius:50px!important;padding:8px 20px!important;box-shadow:0 3px 10px rgba(37,99,235,.25);}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(37,99,235,.35)!important;}
+
+/* =================================================================
+   HALAMAN BERANDA — Hero
+   ================================================================= */
+.hero{background:linear-gradient(135deg,#eaf3ff 0%,#fefce8 60%,#eafdf0 100%);padding:4.5rem 1.5rem 3.5rem;text-align:center;position:relative;overflow:hidden;}
+.hero-floats{position:absolute;inset:0;pointer-events:none;}
+.hf{position:absolute;font-size:1.8rem;opacity:.16;animation:floatUp 5s ease-in-out infinite;}
+.hf:nth-child(1){top:10%;left:6%;animation-delay:0s;}
+.hf:nth-child(2){top:20%;right:8%;animation-delay:.8s;}
+.hf:nth-child(3){bottom:25%;left:12%;animation-delay:1.5s;}
+.hf:nth-child(4){bottom:18%;right:10%;animation-delay:.4s;}
+.hf:nth-child(5){top:55%;left:3%;animation-delay:2s;}
+.hf:nth-child(6){top:65%;right:4%;animation-delay:1.2s;}
+.hero-badge{display:inline-block;background:var(--biru-muda);color:#1d4ed8;font-weight:800;font-size:.78rem;padding:5px 16px;border-radius:50px;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.8px;animation:fadeUp .6s ease both;}
+.hero h1{font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.5rem);color:#1f2937;line-height:1.15;margin-bottom:.9rem;animation:fadeUp .6s .1s ease both;}
+.hero h1 .g{color:var(--biru);} .hero h1 .y{color:var(--kuning);}
+.hero p{font-size:1.05rem;color:var(--abu);max-width:540px;margin:0 auto 2rem;line-height:1.75;animation:fadeUp .6s .2s ease both;}
+.hero-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .6s .3s ease both;}
+.btn-g{background:linear-gradient(135deg,var(--biru),#1d4ed8);color:#fff;font-weight:800;font-size:.95rem;padding:13px 28px;border-radius:50px;border:none;box-shadow:0 5px 18px rgba(37,99,235,.28);transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-g:hover{transform:translateY(-3px);box-shadow:0 9px 26px rgba(37,99,235,.38);}
+.btn-w{background:#fff;color:var(--biru);font-weight:800;font-size:.95rem;padding:13px 28px;border-radius:50px;border:2px solid var(--biru);transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-w:hover{background:var(--biru);color:#fff;}
+
+/* STATS */
+.stats{background:#fff;padding:1.8rem;display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;border-bottom:2px solid var(--bg);}
+.stat-n{font-family:'Fredoka One',cursive;font-size:1.9rem;color:var(--biru);}
+.stat-l{font-size:.8rem;color:var(--abu);font-weight:700;}
+
+/* SECTION WRAPPER */
+.sec{padding:3.5rem 1.5rem;max-width:1100px;margin:0 auto;}
+.sec-hd{display:flex;align-items:center;gap:10px;margin-bottom:1.8rem;flex-wrap:wrap;}
+.sec-hd h2{font-family:'Fredoka One',cursive;font-size:1.7rem;color:#1f2937;}
+.badge-sm{background:var(--kuning-muda);color:#92400e;font-size:.72rem;font-weight:800;padding:3px 11px;border-radius:50px;text-transform:uppercase;letter-spacing:.5px;}
+
+/* =================================================================
+   TOPIK GRID (pengganti "Mata Pelajaran" — di sini berupa 10 topik IPA)
+   ================================================================= */
+.mapel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;}
+.mc{background:#fff;border-radius:18px;padding:1.4rem 1rem;text-align:center;border:none;box-shadow:0 3px 16px rgba(0,0,0,.07);transition:all .22s;cursor:pointer;position:relative;overflow:hidden;}
+.mc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+.mc.c1::after{background:var(--biru);} .mc.c2::after{background:var(--hijau);} .mc.c3::after{background:var(--kuning);}
+.mc.c4::after{background:var(--merah);} .mc.c5::after{background:var(--ungu);} .mc.c6::after{background:var(--orange);}
+.mc.c7::after{background:var(--cyan);} .mc.c8::after{background:var(--pink);}
+.mc:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,.12);}
+.mc-ico{font-size:2.4rem;margin-bottom:.6rem;}
+.mc-name{font-weight:800;font-size:.88rem;line-height:1.3;}
+.mc-sub{font-size:.72rem;color:var(--abu);margin-top:3px;}
+
+/* =================================================================
+   BANNER PROGRES BELAJAR (pengganti "Pilih Kelasmu")
+   ================================================================= */
+.kelas-banner{background:linear-gradient(135deg,#1d4ed8,var(--biru));border-radius:22px;padding:2.2rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;position:relative;overflow:hidden;}
+.kelas-banner::before{content:'🔬';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:5rem;opacity:.14;}
+.kelas-banner h3{font-family:'Fredoka One',cursive;font-size:1.7rem;color:#fff;margin-bottom:.4rem;}
+.kelas-banner p{color:rgba(255,255,255,.85);font-size:.9rem;max-width:360px;}
+.kelas-pills{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;}
+.kp{background:rgba(255,255,255,.18);color:#fff;font-weight:800;font-size:.88rem;padding:8px 18px;border-radius:50px;border:2px solid rgba(255,255,255,.3);cursor:pointer;transition:all .2s;}
+.kp:hover{background:rgba(255,255,255,.95);color:var(--biru);}
+.progress-ring-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.18);padding:8px 16px;border-radius:50px;border:2px solid rgba(255,255,255,.3);}
+.progress-mini-bar{width:90px;height:9px;background:rgba(255,255,255,.3);border-radius:6px;overflow:hidden;}
+.progress-mini-fill{height:100%;background:#fff;width:0%;border-radius:6px;transition:width .5s ease;}
+.progress-mini-label{color:#fff;font-weight:800;font-size:.85rem;}
+
+/* =================================================================
+   ARTIKEL / MATERI TERBARU GRID
+   ================================================================= */
+.art-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.3rem;}
+.art-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 3px 16px rgba(0,0,0,.07);transition:all .22s;cursor:pointer;border:none;text-align:left;position:relative;}
+.art-card:hover{transform:translateY(-5px);box-shadow:0 12px 32px rgba(0,0,0,.12);}
+.art-thumb{height:148px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
+.bg-b{background:linear-gradient(135deg,#dbeafe,#bfdbfe);}
+.bg-g{background:linear-gradient(135deg,#dcfce7,#bbf7d0);}
+.bg-y{background:linear-gradient(135deg,#fef9c3,#fde68a);}
+.bg-p{background:linear-gradient(135deg,#fce7f3,#fbcfe8);}
+.bg-v{background:linear-gradient(135deg,#ede9fe,#ddd6fe);}
+.bg-o{background:linear-gradient(135deg,#ffedd5,#fed7aa);}
+.art-body{padding:1.1rem 1.3rem;}
+.art-tag{display:inline-block;font-size:.7rem;font-weight:800;padding:3px 10px;border-radius:50px;text-transform:uppercase;letter-spacing:.4px;margin-bottom:.5rem;}
+.t-langit{background:#dbeafe;color:#1d4ed8;} .t-hayati{background:#dcfce7;color:#15803d;} .t-energi{background:#fef9c3;color:#a16207;}
+.t-lingk{background:#dcfce7;color:#166534;} .t-bumi{background:#ede9fe;color:#6d28d9;}
+.art-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:.95rem;line-height:1.45;margin-bottom:.45rem;}
+.art-meta{font-size:.78rem;color:var(--abu);display:flex;gap:12px;}
+.art-done-badge{position:absolute;top:10px;right:10px;background:var(--hijau);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+
+/* TIPS */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.1rem;}
+.tip-card{background:#fff;border-radius:16px;padding:1.4rem;box-shadow:0 3px 14px rgba(0,0,0,.07);border-left:5px solid;}
+.tip-card:nth-child(1){border-color:var(--biru);} .tip-card:nth-child(2){border-color:var(--hijau);}
+.tip-card:nth-child(3){border-color:var(--kuning);} .tip-card:nth-child(4){border-color:var(--merah);}
+.tip-n{font-family:'Fredoka One',cursive;font-size:1.8rem;color:#e5e7eb;}
+.tip-t{font-weight:800;font-size:.95rem;margin:.3rem 0;}
+.tip-d{font-size:.83rem;color:var(--abu);line-height:1.6;}
+
+/* SERTIFIKAT CTA (pengganti newsletter) */
+.nws{background:linear-gradient(135deg,#fefce8,#fef3c7);border-radius:22px;padding:2.8rem 2rem;text-align:center;border:2px dashed var(--kuning);}
+.nws h3{font-family:'Fredoka One',cursive;font-size:1.9rem;color:#1f2937;margin-bottom:.6rem;}
+.nws p{color:var(--abu);margin-bottom:1.4rem;font-size:.93rem;}
+.nws-form{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;}
+.nws-form button{background:var(--kuning);color:#7a5c00;font-weight:800;font-size:.93rem;padding:12px 26px;border-radius:50px;border:none;transition:all .2s;}
+.nws-form button:hover{background:#d97706;transform:translateY(-2px);}
+
+/* =================================================================
+   HALAMAN MATERI (LIST)
+   ================================================================= */
+.page-header{background:linear-gradient(135deg,var(--biru),#1d4ed8);padding:3rem 1.5rem 2.5rem;text-align:center;color:#fff;}
+.page-header h1{font-family:'Fredoka One',cursive;font-size:2.2rem;margin-bottom:.5rem;}
+.page-header p{color:rgba(255,255,255,.85);font-size:.95rem;}
+.breadcrumb{font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:.5rem;}
+.breadcrumb span{color:#fff;font-weight:700;}
+
+/* FILTER BAR */
+.filter-bar{background:#fff;padding:1rem 1.5rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;border-bottom:2px solid var(--bg);position:sticky;top:64px;z-index:100;}
+.filter-btn{background:var(--bg);border:2px solid var(--border);color:#4b5563;font-weight:700;font-size:.82rem;padding:7px 16px;border-radius:50px;cursor:pointer;transition:all .2s;}
+.filter-btn:hover,.filter-btn.active{background:var(--biru);border-color:var(--biru);color:#fff;}
+
+/* MATERI LIST CARDS */
+.materi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.3rem;padding:2rem 1.5rem;max-width:1100px;margin:0 auto;}
+.materi-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.07);cursor:pointer;border:none;text-align:left;transition:all .22s;position:relative;}
+.materi-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.12);}
+.mc-head{padding:1rem 1.2rem .8rem;display:flex;align-items:center;gap:10px;}
+.mc-ico2{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.bg-b2{background:var(--biru-muda);} .bg-g2{background:var(--hijau-muda);} .bg-y2{background:var(--kuning-muda);}
+.bg-p2{background:#fce7f3;} .bg-v2{background:#ede9fe;} .bg-o2{background:#ffedd5;}
+.mc-info{flex:1;}
+.mc-mapel{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--abu);}
+.mc-judul{font-family:'Poppins',sans-serif;font-weight:700;font-size:.92rem;color:#1f2937;line-height:1.3;}
+.mc-body{padding:0 1.2rem 1rem;}
+.mc-desc{font-size:.82rem;color:var(--abu);line-height:1.6;margin-bottom:.7rem;}
+.mc-footer{display:flex;align-items:center;justify-content:space-between;}
+.mc-kelas{background:var(--biru-muda);color:#1d4ed8;font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:50px;}
+.mc-arrow{color:var(--biru);font-size:1.1rem;font-weight:900;}
+.mc-done{position:absolute;top:12px;right:12px;background:var(--hijau);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;}
+
+/* =================================================================
+   HALAMAN DETAIL MATERI
+   ================================================================= */
+.detail-wrap{max-width:800px;margin:0 auto;padding:2rem 1.5rem;}
+.detail-header{background:#fff;border-radius:18px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 3px 16px rgba(0,0,0,.07);}
+.detail-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem;}
+.detail-tag{font-size:.75rem;font-weight:800;padding:4px 12px;border-radius:50px;}
+.detail-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.6rem;color:#1f2937;line-height:1.3;margin-bottom:.7rem;}
+.detail-meta{display:flex;gap:1.2rem;font-size:.82rem;color:var(--abu);flex-wrap:wrap;}
+.detail-content{background:#fff;border-radius:18px;padding:2rem;box-shadow:0 3px 16px rgba(0,0,0,.07);line-height:1.8;}
+.detail-content h3{font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--biru);margin:1.5rem 0 .6rem;}
+.detail-content h3:first-child{margin-top:0;}
+.detail-content h4{font-weight:800;font-size:1rem;color:#1f2937;margin:1.2rem 0 .4rem;}
+.detail-content p{color:#374151;font-size:.93rem;margin-bottom:.8rem;}
+.detail-content ul,.detail-content ol{padding-left:1.5rem;margin-bottom:.8rem;}
+.detail-content li{color:#374151;font-size:.93rem;margin-bottom:.3rem;}
+.detail-content .info-box{background:var(--biru-muda);border-left:4px solid var(--biru);border-radius:8px;padding:1rem 1.2rem;margin:1rem 0;}
+.detail-content .warn-box{background:#fef9c3;border-left:4px solid var(--kuning);border-radius:8px;padding:1rem 1.2rem;margin:1rem 0;}
+.detail-content .contoh{background:var(--hijau-muda);border-radius:10px;padding:1rem 1.2rem;margin:1rem 0;}
+.contoh-label{font-weight:800;font-size:.8rem;color:var(--hijau);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.4rem;}
+.detail-content figure{margin:1rem 0;}
+.detail-content figure img{width:100%;border-radius:12px;display:block;}
+.detail-content figcaption{text-align:center;font-size:.78rem;color:var(--abu);margin-top:.4rem;font-weight:700;}
+.video-wrap{position:relative;width:100%;padding-top:56.25%;border-radius:12px;overflow:hidden;margin:1rem 0 0;box-shadow:0 3px 14px rgba(0,0,0,.1);}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+/* Link cadangan di bawah tiap video, selalu tampil agar video tetap bisa ditonton
+   meskipun kotak embed di atas gagal/kosong (video dikunci pemiliknya) */
+.video-alt-link{display:flex;align-items:center;justify-content:center;gap:8px;background:#f3f4f6;color:#4b5563;font-weight:700;font-size:.82rem;padding:9px;border-radius:0 0 12px 12px;margin:0 0 1rem;transition:all .2s;}
+.video-alt-link:hover{background:#e5e7eb;color:#ef4444;}
+.btn-back{background:var(--bg);border:2px solid var(--border);color:#4b5563;font-weight:800;font-size:.88rem;padding:9px 20px;border-radius:50px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s;margin-bottom:1.2rem;}
+.btn-back:hover{background:var(--biru-muda);border-color:var(--biru);color:var(--biru);}
+
+/* =================================================================
+   KUIS INTERAKTIF (di dalam halaman detail materi)
+   ================================================================= */
+.quiz-section{background:#fff;border-radius:18px;padding:2rem;margin-top:1.5rem;box-shadow:0 3px 16px rgba(0,0,0,.07);border:3px dashed var(--kuning);}
+.quiz-section-title{font-family:'Fredoka One',cursive;font-size:1.3rem;color:#1f2937;margin-bottom:.3rem;display:flex;align-items:center;gap:8px;}
+.quiz-section-sub{font-size:.85rem;color:var(--abu);margin-bottom:1.3rem;}
+.soal-box{background:var(--bg);border:2px solid var(--border);border-radius:14px;padding:1.2rem;margin:.8rem 0;}
+.soal-box .soal-no{font-weight:800;color:var(--biru);font-size:.85rem;margin-bottom:.5rem;}
+.soal-box p.q-text{font-size:.92rem;color:#1f2937;font-weight:700;margin-bottom:.7rem;}
+.opsi-btn{display:block;width:100%;text-align:left;background:#fff;border:2px solid var(--border);color:#1f2937;padding:10px 14px;border-radius:10px;margin-bottom:8px;font-size:.88rem;font-weight:600;transition:all .15s;}
+.opsi-btn:hover:not(:disabled){border-color:var(--biru);background:var(--biru-muda);}
+.opsi-btn.selected{border-color:var(--biru);background:var(--biru-muda);}
+.opsi-btn.correct{border-color:var(--hijau);background:var(--hijau-muda);color:#15803d;font-weight:800;}
+.opsi-btn.wrong{border-color:var(--merah);background:#fee2e2;color:#991b1b;font-weight:800;}
+.opsi-btn:disabled{cursor:not-allowed;}
+.quiz-btn-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem;}
+.btn-quiz-submit{background:linear-gradient(135deg,var(--biru),#1d4ed8);color:#fff;font-weight:800;font-size:.9rem;padding:11px 24px;border-radius:50px;border:none;transition:all .2s;}
+.btn-quiz-submit:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(37,99,235,.3);}
+.btn-quiz-reset{background:var(--bg);border:2px solid var(--border);color:#4b5563;font-weight:800;font-size:.9rem;padding:10px 22px;border-radius:50px;}
+.quiz-result-box{display:none;text-align:center;padding:1.6rem;border-radius:14px;margin-top:1.2rem;background:var(--bg);}
+.quiz-result-box.show{display:block;animation:fadeUp .4s ease both;}
+.quiz-result-box .score-num{font-family:'Fredoka One',cursive;font-size:2.6rem;color:var(--biru);}
+
+/* =================================================================
+   HALAMAN PROGRES / "KELAS" → di sini jadi "Progres Belajar"
+   ================================================================= */
+.kelas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.3rem;}
+.kelas-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 3px 16px rgba(0,0,0,.07);cursor:pointer;border:none;text-align:left;transition:all .22s;}
+.kelas-card:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(0,0,0,.12);}
+.kelas-head{padding:1.6rem;display:flex;align-items:center;gap:1rem;}
+.kelas-num{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;color:#fff;flex-shrink:0;}
+.kelas-info h3{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.05rem;color:#1f2937;line-height:1.3;}
+.kelas-info p{font-size:.78rem;color:var(--abu);margin-top:2px;}
+.kelas-mapel-list{padding:0 1.5rem 1.5rem;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;justify-content:space-between;}
+.kelas-mapel-chip{background:var(--bg);color:#374151;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:50px;}
+.kelas-progress-bar{flex:1;height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin:0 10px;}
+.kelas-progress-fill{height:100%;background:var(--hijau);border-radius:6px;}
+
+/* =================================================================
+   HALAMAN TIPS BELAJAR
+   ================================================================= */
+.tips-full-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.3rem;}
+.tips-full-card{background:#fff;border-radius:18px;padding:1.8rem;box-shadow:0 3px 16px rgba(0,0,0,.07);}
+.tf-ico{font-size:2.5rem;margin-bottom:.8rem;}
+.tf-title{font-family:'Fredoka One',cursive;font-size:1.2rem;color:#1f2937;margin-bottom:.5rem;}
+.tf-desc{font-size:.87rem;color:var(--abu);line-height:1.7;}
+.tf-steps{margin-top:.8rem;padding-left:1.2rem;}
+.tf-steps li{font-size:.85rem;color:#374151;margin-bottom:.3rem;}
+
+/* =================================================================
+   HALAMAN TENTANG
+   ================================================================= */
+.about-wrap{max-width:800px;margin:0 auto;padding:2rem 1.5rem;}
+.about-hero{background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-radius:22px;padding:3rem 2rem;text-align:center;margin-bottom:1.5rem;}
+.about-hero h2{font-family:'Fredoka One',cursive;font-size:2.2rem;color:#1e3a8a;margin-bottom:.6rem;}
+.about-hero p{color:#1e40af;font-size:.95rem;line-height:1.7;}
+.about-card{background:#fff;border-radius:18px;padding:2rem;box-shadow:0 3px 16px rgba(0,0,0,.07);margin-bottom:1.2rem;}
+.about-card h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--biru);margin-bottom:.8rem;}
+.about-card p{font-size:.9rem;color:#374151;line-height:1.75;margin-bottom:.6rem;}
+.visi-misi{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.vm-card{border-radius:14px;padding:1.3rem;}
+.vm-card.v{background:var(--biru-muda);}
+.vm-card.m{background:var(--hijau-muda);}
+.vm-card h4{font-weight:800;font-size:1rem;margin-bottom:.5rem;}
+.vm-card.v h4{color:#1e40af;} .vm-card.m h4{color:#14532d;}
+.vm-card p,.vm-card li{font-size:.85rem;color:#374151;line-height:1.65;}
+.vm-card ul{padding-left:1.2rem;}
+@media(max-width:600px){.visi-misi{grid-template-columns:1fr;}}
+
+/* =================================================================
+   SERTIFIKAT OVERLAY
+   ================================================================= */
+.certificate-overlay{position:fixed;inset:0;background:rgba(12,45,87,.65);display:none;align-items:center;justify-content:center;z-index:1000;padding:16px;}
+.certificate-overlay.show{display:flex;animation:fadeUp .3s ease both;}
+.certificate{background:#fffdf5;width:100%;max-width:640px;border-radius:18px;padding:2.6rem 2rem;text-align:center;border:8px double var(--kuning);position:relative;}
+.certificate .medal{font-size:3rem;}
+.certificate h2{font-family:'Fredoka One',cursive;font-size:1.7rem;margin:.6rem 0;color:var(--biru);}
+.certificate .student-name{font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:700;margin:.8rem 0;border-bottom:2px solid var(--kuning);display:inline-block;padding-bottom:4px;}
+.certificate p{color:#374151;line-height:1.6;font-size:.92rem;}
+.certificate .close-cert{position:absolute;top:12px;right:14px;background:var(--merah);color:#fff;width:32px;height:32px;border-radius:50%;border:none;}
+
+/* =================================================================
+   FOOTER (tampil di semua halaman)
+   ================================================================= */
+footer{background:#0c2d57;color:#bfdbfe;padding:2.5rem 1.5rem 1.2rem;margin-top:3rem;}
+.footer-in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;margin-bottom:1.5rem;}
+.f-logo-txt{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--biru2);}
+.f-logo-txt span{color:var(--kuning);}
+.f-desc{font-size:.82rem;color:#93c5fd;margin-top:.6rem;line-height:1.7;}
+.f-col h4{font-weight:800;font-size:.82rem;color:#fff;margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.5px;}
+.f-col ul{list-style:none;}
+.f-col li{margin-bottom:.4rem;}
+.f-col a,.f-col button{color:#93c5fd;font-size:.82rem;background:none;border:none;cursor:pointer;padding:0;font-family:'Nunito',sans-serif;}
+.f-col a:hover,.f-col button:hover{color:#fff;}
+.f-bot{max-width:1100px;margin:0 auto;border-top:1px solid #1e3a5f;padding-top:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.4rem;font-size:.78rem;color:#93c5fd;}
+@media(max-width:700px){.footer-in{grid-template-columns:1fr 1fr;} }
+@media(max-width:480px){.footer-in{grid-template-columns:1fr;} .art-grid{grid-template-columns:1fr;} .materi-grid{grid-template-columns:1fr;}}
+
+/* =================================================================
+   ANIMATIONS
+   ================================================================= */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes floatUp{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(-16px) rotate(6deg);}}
+.fade-in{animation:fadeUp .45s ease both;}
+
+/* Mobile nav links disembunyikan, cukup logo + CTA (mengikuti referensi) */
+@media(max-width:700px){ nav .nav-links button:not(.nav-cta){display:none;} }
+</style>
+</head>
+<body>
+
+<!-- =====================================================================
+     NAVBAR — tampil di semua halaman, navigasi antar "page" lewat JS
+     ===================================================================== -->
+<nav>
+  <div class="logo" onclick="showPage('beranda')">
+    <div class="logo-icon">🔬</div>
+    <span class="logo-text">Belajar<span>IPA</span></span>
+  </div>
+  <div class="nav-links">
+    <button onclick="showPage('beranda')" id="nav-beranda" class="active">🏠 Beranda</button>
+    <button onclick="showPage('materi')" id="nav-materi">📚 Materi</button>
+    <button onclick="showPage('progres')" id="nav-progres">📊 Progres</button>
+    <button onclick="showPage('tips')" id="nav-tips">💡 Tips Belajar</button>
+    <button onclick="showPage('tentang')" id="nav-tentang">ℹ️ Tentang</button>
+    <button class="nav-cta" onclick="showPage('materi')">Mulai Belajar 🚀</button>
+  </div>
+</nav>
+
+<!-- ==================== HALAMAN BERANDA ==================== -->
+<div id="page-beranda" class="page active">
+  <section class="hero">
+    <div class="hero-floats">
+      <span class="hf">🪐</span><span class="hf">🌱</span><span class="hf">⚡</span>
+      <span class="hf">🌍</span><span class="hf">🦋</span><span class="hf">🔋</span>
+    </div>
+    <div class="hero-badge">🌟Kelas Inspiran · IPA Kelas 6 SD</div>
+    <h1>Belajar IPA Jadi<br/><span class="g">Menyenangkan</span> &<br/><span class="y">Mudah Dipahami</span></h1>
+    <p>Jelajahi 10 materi seru Ilmu Pengetahuan Alam untuk kelas 6 SD — lengkap dengan penjelasan sederhana, video pembelajaran, dan kuis interaktif untuk menguji pemahamanmu.</p>
+    <div class="hero-btns">
+      <button class="btn-g" onclick="showPage('materi')">📚 Mulai Belajar</button>
+      <button class="btn-w" onclick="showPage('progres')">📊 Lihat Progresku</button>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div><div class="stat-n">10</div><div class="stat-l">Materi Lengkap</div></div>
+    <div><div class="stat-n">60+</div><div class="stat-l">Soal Kuis</div></div>
+    <div><div class="stat-n">10</div><div class="stat-l">Video Pembelajaran</div></div>
+    <div><div class="stat-n" id="statSelesai">0</div><div class="stat-l">Kuis Selesai</div></div>
+  </div>
+
+  <!-- BANNER PROGRES BELAJAR -->
+  <div style="max-width:1100px;margin:3rem auto;padding:0 1.5rem;">
+    <div class="kelas-banner">
+      <div>
+        <h3>Pantau Progres Belajarmu 📊</h3>
+        <p>Selesaikan kuis di setiap materi untuk melihat progresmu bertambah dan dapatkan sertifikat penghargaan!</p>
+      </div>
+      <div class="kelas-pills">
+        <div class="progress-ring-wrap">
+          <span class="progress-mini-label" id="progresLabelHome">0%</span>
+          <div class="progress-mini-bar"><div class="progress-mini-fill" id="progresFillHome"></div></div>
+        </div>
+        <button class="kp" onclick="showPage('progres')">Lihat Detail →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 TOPIK IPA -->
+  <div class="sec">
+    <div class="sec-hd"><h2>🗂️ Topik IPA Kelas 6</h2><span class="badge-sm">Kelas Inspiran</span></div>
+    <div class="mapel-grid" id="topik-grid"></div>
+  </div>
+
+  <!-- MATERI TERBARU -->
+  <div class="sec" style="padding-top:0;">
+    <div class="sec-hd"><h2>📰 Semua Materi</h2></div>
+    <div class="art-grid" id="home-artikel"></div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="sec" style="padding-top:0;">
+    <div class="sec-hd"><h2>💡 Tips Belajar IPA Efektif</h2></div>
+    <div class="tips-grid">
+      <div class="tip-card"><div class="tip-n">01</div><div class="tip-t">Amati Lingkungan Sekitar</div><div class="tip-d">Banyak materi IPA bisa diamati langsung, seperti tumbuhan, hewan, dan cuaca di sekitar rumah.</div></div>
+      <div class="tip-card"><div class="tip-n">02</div><div class="tip-t">Buat Catatan Bergambar</div><div class="tip-d">Gambarlah diagram sederhana seperti daur hidup atau rantai makanan agar lebih mudah diingat.</div></div>
+      <div class="tip-card"><div class="tip-n">03</div><div class="tip-t">Kerjakan Kuis Berulang</div><div class="tip-d">Ulangi kuis pada materi yang belum dikuasai sampai mendapatkan skor yang memuaskan.</div></div>
+      <div class="tip-card"><div class="tip-n">04</div><div class="tip-t">Tonton Video Pembelajaran</div><div class="tip-d">Video membantu memahami proses yang sulit dibayangkan, seperti gerhana atau metamorfosis.</div></div>
+    </div>
+  </div>
+
+  <!-- SERTIFIKAT CTA -->
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem 3.5rem;">
+    <div class="nws">
+      <div style="font-size:2.2rem;margin-bottom:.5rem;">🏆</div>
+      <h3>Raih Sertifikat Penghargaan!</h3>
+      <p>Selesaikan kuis pada seluruh 10 materi untuk mendapatkan sertifikat penghargaan IPA Kelas 6 SD.</p>
+      <div class="nws-form">
+        <button onclick="showPage('materi')">Mulai Kerjakan Kuis ✨</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== HALAMAN MATERI (LIST) ==================== -->
+<div id="page-materi" class="page">
+  <div class="page-header">
+    <div class="breadcrumb">Beranda › <span>Materi</span></div>
+    <h1>📚 Semua Materi IPA Kelas 6</h1>
+    <p>Pilih topik yang ingin kamu pelajari hari ini</p>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterMateri('Semua',this)">Semua</button>
+    <button class="filter-btn" onclick="filterMateri('Langit & Bumi',this)">🪐 Langit & Bumi</button>
+    <button class="filter-btn" onclick="filterMateri('Makhluk Hidup',this)">🦋 Makhluk Hidup</button>
+    <button class="filter-btn" onclick="filterMateri('Energi & Listrik',this)">⚡ Energi & Listrik</button>
+    <button class="filter-btn" onclick="filterMateri('Lingkungan',this)">🌍 Lingkungan</button>
+  </div>
+  <div class="materi-grid" id="materi-list"></div>
+</div>
+
+<!-- ==================== HALAMAN DETAIL MATERI ==================== -->
+<div id="page-detail" class="page">
+  <div class="page-header">
+    <div class="breadcrumb" id="detail-breadcrumb"></div>
+    <h1 id="detail-header-title"></h1>
+    <p id="detail-header-sub"></p>
+  </div>
+  <div class="detail-wrap">
+    <button class="btn-back" onclick="backFromDetail()">← Kembali ke Materi</button>
+    <div class="detail-header">
+      <div class="detail-tags" id="detail-tags"></div>
+      <div class="detail-title" id="detail-title"></div>
+      <div class="detail-meta" id="detail-meta"></div>
+    </div>
+    <div class="detail-content" id="detail-content"></div>
+
+    <!-- KUIS INTERAKTIF — bagian dari halaman detail tiap materi -->
+    <div class="quiz-section" id="quiz-section">
+      <div class="quiz-section-title">🧠 Uji Pemahamanmu</div>
+      <div class="quiz-section-sub">Jawab 6 soal pilihan ganda di bawah ini untuk menguji pemahamanmu tentang materi ini.</div>
+      <div id="quiz-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== HALAMAN PROGRES BELAJAR ==================== -->
+<div id="page-progres" class="page">
+  <div class="page-header">
+    <div class="breadcrumb">Beranda › <span>Progres Belajar</span></div>
+    <h1>📊 Progres Belajarmu</h1>
+    <p>Pantau materi mana yang sudah dan belum kamu kuasai</p>
+  </div>
+  <div class="sec">
+    <div class="kelas-banner" style="margin-bottom:2rem;">
+      <div>
+        <h3 id="progresPageTitle">0 dari 10 Materi Selesai</h3>
+        <p>Terus semangat belajar! Selesaikan seluruh kuis untuk mendapatkan sertifikat penghargaan.</p>
+      </div>
+      <div class="kelas-pills">
+        <button class="kp" onclick="tryShowCertificate()">🏆 Lihat Sertifikat</button>
+      </div>
+    </div>
+    <div class="kelas-grid" id="progres-list"></div>
+  </div>
+</div>
+
+<!-- ==================== HALAMAN TIPS BELAJAR ==================== -->
+<div id="page-tips" class="page">
+  <div class="page-header">
+    <div class="breadcrumb">Beranda › <span>Tips Belajar</span></div>
+    <h1>💡 Tips Belajar IPA Efektif</h1>
+    <p>Panduan belajar cerdas untuk siswa kelas 6 SD</p>
+  </div>
+  <div class="sec">
+    <div class="tips-full-grid" id="tips-list"></div>
+  </div>
+</div>
+
+<!-- ==================== HALAMAN TENTANG ==================== -->
+<div id="page-tentang" class="page">
+  <div class="page-header">
+    <div class="breadcrumb">Beranda › <span>Tentang Kami</span></div>
+    <h1>ℹ️ Tentang Belajar IPA</h1>
+    <p>Mengenal lebih jauh tentang website pembelajaran ini</p>
+  </div>
+  <div class="about-wrap">
+    <div class="about-hero">
+      <div style="font-size:3.5rem;margin-bottom:.8rem;">🔬✨</div>
+      <h2>Belajar IPA Kelas 6 SD</h2>
+      <p>Website pembelajaran interaktif yang hadir untuk membantu siswa kelas 6 SD memahami Ilmu Pengetahuan Alam dengan cara yang menyenangkan dan sesuai Kurikulum.</p>
+    </div>
+    <div class="about-card">
+      <h3>🌟 Tentang Website Ini</h3>
+      <p>Belajar IPA Kelas 6 SD adalah platform pembelajaran yang menyajikan 10 materi inti IPA sesuai Kurikulum, mulai dari Sistem Tata Surya hingga Ekosistem.</p>
+      <p>Setiap materi dilengkapi dengan penjelasan sederhana, fakta menarik, contoh penerapan sehari-hari, video pembelajaran, dan kuis interaktif dengan penilaian otomatis.</p>
+    </div>
+    <div class="about-card">
+      <h3>🎯 Visi & Misi</h3>
+      <div class="visi-misi">
+        <div class="vm-card v">
+          <h4>👁️ Visi</h4>
+          <p>Menjadi sumber belajar IPA yang mudah diakses dan dipahami oleh seluruh siswa kelas 6 SD di Indonesia.</p>
+        </div>
+        <div class="vm-card m">
+          <h4>🚀 Misi</h4>
+          <ul>
+            <li>Menyajikan materi IPA sesuai Kurikulum</li>
+            <li>Membuat konten yang mudah dipahami siswa</li>
+            <li>Menyediakan kuis untuk menguji pemahaman</li>
+            <li>Membantu guru dan orang tua mendampingi belajar</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="about-card">
+      <h3>📬 Hubungi Kami</h3>
+      <p>Punya pertanyaan atau masukan? Sampaikan kepada guru atau pendamping belajarmu!</p>
+      <p>📧 Email: <strong>halo@belajaripa.id</strong></p>
+      <p>🌐 Website: <strong>www.belajaripa.id</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER (tampil di semua halaman) -->
+<footer>
+  <div class="footer-in">
+    <div>
+      <div class="f-logo-txt">Belajar<span>IPA</span></div>
+      <p class="f-desc">Website pembelajaran IPA lengkap untuk siswa kelas 6 SD.</p>
+    </div>
+    <div class="f-col">
+      <h4>Topik IPA</h4>
+      <ul id="footer-topik-list"></ul>
+    </div>
+    <div class="f-col">
+      <h4>Navigasi</h4>
+      <ul>
+        <li><button onclick="showPage('beranda')">Beranda</button></li>
+        <li><button onclick="showPage('materi')">Materi</button></li>
+        <li><button onclick="showPage('progres')">Progres Belajar</button></li>
+        <li><button onclick="showPage('tips')">Tips Belajar</button></li>
+        <li><button onclick="showPage('tentang')">Tentang Kami</button></li>
+      </ul>
+    </div>
+  </div>
+  <div class="f-bot">
+    <span>© 2026 Belajar IPA Kelas 6 SD. Hak Cipta Dilindungi.</span>
+    <span>Dibuat dengan ❤️ untuk siswa SD Indonesia</span>
+  </div>
+</footer>
+
+<!-- Overlay Sertifikat -->
+<div class="certificate-overlay" id="certOverlay">
+  <div class="certificate">
+    <button class="close-cert" id="closeCert">✕</button>
+    <div class="medal">🏅</div>
+    <h2>SERTIFIKAT PENGHARGAAN</h2>
+    <p>Diberikan kepada</p>
+    <div class="student-name" id="certName">Siswa Hebat</div>
+    <p>Telah berhasil menyelesaikan <strong>seluruh kuis</strong> pada Website Pembelajaran<br>
+    <strong>"Belajar IPA Kelas 6 SD"</strong> dengan penuh semangat dan rasa ingin tahu.</p>
+    <p style="margin-top:10px;font-style:italic;">Teruslah belajar dan menjelajahi keajaiban sains! 🔬🌍🚀</p>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   BAGIAN A. DATA MATERI
+   Setiap objek materi mengikuti struktur ala blog:
+   id, judul, topik (kategori filter), kelas, tag (kelas css tag warna),
+   bg/bgico (warna kartu), ico (emoji ikon), tgl, durasi, desc (ringkasan),
+   konten (HTML lengkap artikel), video (url embed youtube),
+   quiz: [{q, opsi[], jawaban}]
+   ===================================================================== */
+const MATERI = [
+  // ---------------------------------------------------------------
+  // 1. SISTEM TATA SURYA
+  // ---------------------------------------------------------------
+  {id:1,judul:"Sistem Tata Surya",topik:"Langit & Bumi",kelas:"Kelas 6",tag:"t-langit",bg:"bg-b",bgico:"bg-b2",ico:"🪐",tgl:"28 Jun 2026",durasi:"7 menit",
+   desc:"Mengenal Matahari, planet-planet, dan susunan tata suryas beserta gerak rotasi dan revolusinya.",
+   video:"https://youtu.be/embed/wAr5DARC6rc",
+   konten:`<h3>🌟 Apa itu Tata Surya?</h3>
+<p>Tata surya adalah kumpulan benda langit yang terdiri dari Matahari, planet-planet, satelit, asteroid, komet, dan meteor yang semuanya bergerak mengelilingi Matahari karena gaya gravitasi.</p>
+<div class="info-box">💡 <strong>Ingat:</strong> Matahari adalah bintang yang menjadi pusat tata surya kita. Matahari menghasilkan cahaya dan panasnya sendiri.</div>
+<h3>🔢 Urutan Planet dalam Tata Surya</h3>
+<p>Urutan planet dari yang paling dekat ke Matahari adalah:</p>
+<div class="contoh"><div class="contoh-label">Urutan Planet</div>1. Merkurius — 2. Venus — 3. Bumi — 4. Mars — 5. Jupiter — 6. Saturnus — 7. Uranus — 8. Neptunus<br><br>Cara mudah mengingatnya: <em>"Mer-Ve-Bu-Ma-Ju-Sa-U-Ne"</em></div>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Planets2013.svg/1200px-Planets2013.svg.png" alt="Urutan planet dalam tata surya" onerror="this.onerror=null;this.src='https://placehold.co/800x400/2563eb/ffffff?text=Tata+Surya';">
+  <figcaption>Urutan planet dalam tata surya, dari Merkurius hingga Neptunus</figcaption>
+</figure>
+<h3>🌍 Planet Dalam vs Planet Luar</h3>
+<ul>
+<li><strong>Planet dalam</strong>: Merkurius, Venus, Bumi, Mars — terbuat dari batuan, ukuran lebih kecil.</li>
+<li><strong>Planet luar</strong>: Jupiter, Saturnus, Uranus, Neptunus — berukuran raksasa, sebagian besar gas.</li>
+</ul>
+<h3>🔄 Rotasi dan Revolusi</h3>
+<p>Setiap planet bergerak mengelilingi Matahari dalam lintasan yang disebut <strong>orbit</strong>. Gerakan planet mengelilingi Matahari disebut <strong>revolusi</strong>, sedangkan gerakan planet berputar pada sumbunya sendiri disebut <strong>rotasi</strong>.</p>
+<div class="video-wrap"><iframe src="https://youtu.be/embed/wAr5DARC6rc" title="Video Tata Surya" allowfullscreen loading="lazy"></iframe></div><a class="video-alt-link" href="https://youtu.be/wAr5DARC6rc?feature=shared" target="_blank" rel="noopener">🎬 Video tidak muncul? klik di sini</a>
+<h4>🎈 Contoh Penerapan Sehari-hari</h4>
+<p>Kalender Masehi yang kita gunakan dihitung berdasarkan revolusi Bumi mengelilingi Matahari (365 hari = 1 tahun). Pergantian siang dan malam terjadi karena rotasi Bumi pada sumbunya.</p>
+<div class="warn-box">🌟 <strong>Fakta Menarik:</strong> Jupiter adalah planet terbesar di tata surya, ukurannya bisa menampung lebih dari 1.300 planet seukuran Bumi! Merkurius adalah planet terkecil dan paling dekat Matahari.</div>
+<h3>📌 Kesimpulan</h3>
+<p>Tata surya terdiri dari Matahari sebagai pusat dan delapan planet yang mengelilinginya. Pemahaman tentang tata surya membantu kita mengerti fenomena alam seperti siang-malam dan pergantian musim.</p>`,
+   quiz:[
+     {q:"Apa nama bintang yang menjadi pusat tata surya kita?", opsi:["Bulan","Matahari","Bumi","Bintang Utara"], jawaban:1},
+     {q:"Planet manakah yang paling dekat dengan Matahari?", opsi:["Venus","Bumi","Merkurius","Mars"], jawaban:2},
+     {q:"Gerakan planet mengelilingi Matahari disebut?", opsi:["Rotasi","Revolusi","Orbit tetap","Gravitasi"], jawaban:1},
+     {q:"Planet terbesar di tata surya adalah?", opsi:["Saturnus","Neptunus","Jupiter","Uranus"], jawaban:2},
+     {q:"Berikut yang termasuk planet luar adalah?", opsi:["Venus dan Mars","Jupiter dan Saturnus","Bumi dan Merkurius","Mars dan Venus"], jawaban:1},
+     {q:"Satu kali rotasi Bumi membutuhkan waktu kira-kira?", opsi:["1 minggu","1 bulan","24 jam","1 tahun"], jawaban:2}
+   ]},
+
+  // ---------------------------------------------------------------
+  // 2. PERKEMBANGBIAKAN MAKHLUK HIDUP
+  // ---------------------------------------------------------------
+  {id:2,judul:"Perkembangbiakan Makhluk Hidup",topik:"Makhluk Hidup",kelas:"Kelas 6",tag:"t-hayati",bg:"bg-g",bgico:"bg-g2",ico:"🌱",tgl:"27 Jun 2026",durasi:"6 menit",
+   desc:"Memahami cara tumbuhan dan hewan berkembang biak secara generatif, vegetatif, ovipar, dan vivipar.",
+   video:"https://www.youtube.com/embed/SMN-d94RWtQ",
+   konten:`<h3>🌼 Pengertian Perkembangbiakan</h3>
+<p>Perkembangbiakan adalah cara makhluk hidup menghasilkan keturunan agar jenisnya tidak punah. Setiap makhluk hidup memiliki caranya masing-masing untuk berkembang biak.</p>
+<h3>🌿 Perkembangbiakan Tumbuhan</h3>
+<ul>
+<li><strong>Generatif (kawin)</strong>: melalui penyerbukan, yaitu jatuhnya serbuk sari ke kepala putik sehingga terjadi pembuahan dan menghasilkan biji.</li>
+<li><strong>Vegetatif (tak kawin)</strong>: tanpa pembuahan, contohnya umbi (kentang), tunas (pisang), spora (jamur dan paku), dan setek (singkong).</li>
+</ul>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Pollination_diagram.svg/1200px-Pollination_diagram.svg.png" alt="Proses penyerbukan" onerror="this.onerror=null;this.src='https://placehold.co/800x400/16a34a/ffffff?text=Penyerbukan';">
+  <figcaption>Proses penyerbukan pada bunga</figcaption>
+</figure>
+<h3>🐣 Perkembangbiakan Hewan</h3>
+<div class="contoh"><div class="contoh-label">Jenis Perkembangbiakan Hewan</div>
+🥚 <strong>Ovipar (bertelur)</strong> — ayam, burung, ikan<br>
+🐄 <strong>Vivipar (beranak)</strong> — kucing, sapi, kambing<br>
+🦎 <strong>Ovovivipar (bertelur lalu beranak)</strong> — ular, kadal tertentu</div>
+<div class="video-wrap"><iframe src="https://www.youtube.com/embed/SMN-d94RWtQ" title="Video Perkembangbiakan" allowfullscreen loading="lazy"></iframe></div><a class="video-alt-link" href="https://www.youtube.com/watch?v=SMN-d94RWtQ" target="_blank" rel="noopener">🎬 Video tidak muncul? klik di sini</a>
+<h4>🎈 Contoh Penerapan Sehari-hari</h4>
+<p>Petani memanfaatkan perkembangbiakan vegetatif seperti setek dan cangkok untuk memperbanyak tanaman buah unggul dengan cepat, misalnya pada tanaman mangga dan jambu.</p>
+<div class="warn-box">🌟 <strong>Fakta Menarik:</strong> Tanaman bambu jarang berbunga dan berbiji. Ia lebih sering berkembang biak secara vegetatif melalui tunas rumpun dari akarnya!</div>
+<h3>📌 Kesimpulan</h3>
+<p>Makhluk hidup berkembang biak melalui cara generatif maupun vegetatif (tumbuhan), atau ovipar, vivipar, dan ovovivipar (hewan), dengan tujuan melestarikan jenisnya.</p>`,
+   quiz:[
+     {q:"Perkembangbiakan tumbuhan melalui biji disebut?", opsi:["Vegetatif","Generatif","Ovipar","Vivipar"], jawaban:1},
+     {q:"Contoh hewan yang berkembang biak dengan bertelur adalah?", opsi:["Kucing","Sapi","Ayam","Kambing"], jawaban:2},
+     {q:"Perkembangbiakan tanaman pisang biasanya melalui?", opsi:["Biji","Tunas","Spora","Umbi"], jawaban:1},
+     {q:"Hewan yang bertelur kemudian menetas di dalam tubuh induknya disebut?", opsi:["Ovipar","Vivipar","Ovovivipar","Generatif"], jawaban:2},
+     {q:"Jatuhnya serbuk sari ke kepala putik disebut?", opsi:["Pembuahan","Penyerbukan","Perkecambahan","Fotosintesis"], jawaban:1},
+     {q:"Berikut contoh perkembangbiakan vegetatif adalah?", opsi:["Setek singkong","Telur ayam","Anak kucing","Biji mangga"], jawaban:0}
+   ]},
+
+  // ---------------------------------------------------------------
+  // 3. ADAPTASI MAKHLUK HIDUP
+  // ---------------------------------------------------------------
+  {id:3,judul:"Adaptasi Makhluk Hidup",topik:"Makhluk Hidup",kelas:"Kelas 6",tag:"t-hayati",bg:"bg-g",bgico:"bg-g2",ico:"🦎",tgl:"26 Jun 2026",durasi:"6 menit",
+   desc:"Memahami cara hewan dan tumbuhan menyesuaikan diri dengan lingkungannya agar dapat bertahan hidup.",
+   video:"https://www.youtube.com/embed/d7P4zQ9lboA",
+   konten:`<h3>🦋 Apa itu Adaptasi?</h3>
+<p>Adaptasi adalah kemampuan makhluk hidup untuk menyesuaikan diri dengan lingkungan tempat tinggalnya agar dapat bertahan hidup.</p>
+<h3>📋 Jenis-Jenis Adaptasi</h3>
+<ul>
+<li><strong>Adaptasi morfologi</strong>: penyesuaian bentuk tubuh. Contoh: bentuk paruh burung berbeda sesuai makanannya, kaki bebek berselaput untuk berenang.</li>
+<li><strong>Adaptasi fisiologi</strong>: penyesuaian fungsi alat tubuh. Contoh: unta menghasilkan urine sedikit untuk menghemat air di gurun.</li>
+<li><strong>Adaptasi tingkah laku</strong>: penyesuaian melalui perilaku. Contoh: bunglon mengubah warna kulit (mimikri), cicak memutuskan ekor (autotomi) saat terancam.</li>
+</ul>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Chamaeleo_chamaeleon_03.jpg/1200px-Chamaeleo_chamaeleon_03.jpg" alt="Bunglon beradaptasi" onerror="this.onerror=null;this.src='https://placehold.co/800x400/16a34a/ffffff?text=Adaptasi+Hewan';">
+  <figcaption>Bunglon beradaptasi dengan mengubah warna kulit</figcaption>
+</figure>
+<div class="info-box">💡 Tumbuhan juga beradaptasi, misalnya pohon jati menggugurkan daun saat kemarau untuk mengurangi penguapan, dan kaktus memiliki batang tebal untuk menyimpan air.</div>
+<div class="video-wrap"><iframe src="https://www.youtube.com/embed/d7P4zQ9lboA" title="Video Adaptasi" allowfullscreen loading="lazy"></iframe></div><a class="video-alt-link" href="https://www.youtube.com/watch?v=d7P4zQ9lboA" target="_blank" rel="noopener">🎬 Video tidak muncul? klik di sini</a>
+<h4>🎈 Contoh Penerapan Sehari-hari</h4>
+<p>Petani memilih menanam kaktus dan tanaman sukulen di lahan kering karena tumbuhan ini sudah beradaptasi untuk menyimpan air, sehingga tidak perlu disiram sering.</p>
+<div class="warn-box">🌟 <strong>Fakta Menarik:</strong> Bunglon mengubah warna kulit bukan hanya untuk kamuflase, tapi juga untuk mengatur suhu tubuh dan berkomunikasi dengan bunglon lain!</div>
+<h3>📌 Kesimpulan</h3>
+<p>Adaptasi adalah cara makhluk hidup menyesuaikan diri dengan lingkungannya melalui perubahan bentuk tubuh, fungsi tubuh, maupun perilaku agar dapat bertahan hidup.</p>`,
+   quiz:[
+     {q:"Adaptasi adalah kemampuan makhluk hidup untuk...", opsi:["Berkembang biak","Menyesuaikan diri dengan lingkungan","Berpindah tempat","Mencari makan"], jawaban:1},
+     {q:"Bentuk paruh burung yang berbeda-beda termasuk adaptasi...", opsi:["Fisiologi","Tingkah laku","Morfologi","Generatif"], jawaban:2},
+     {q:"Unta menghasilkan urine sedikit untuk menghemat air, ini contoh adaptasi...", opsi:["Morfologi","Fisiologi","Tingkah laku","Vegetatif"], jawaban:1},
+     {q:"Cicak memutuskan ekornya saat terancam disebut...", opsi:["Mimikri","Autotomi","Hibernasi","Estivasi"], jawaban:1},
+     {q:"Pohon jati menggugurkan daun saat kemarau untuk...", opsi:["Menarik serangga","Mengurangi penguapan","Mempercepat fotosintesis","Menghasilkan biji"], jawaban:1},
+     {q:"Kaki bebek berselaput berguna untuk...", opsi:["Berlari cepat","Memanjat pohon","Berenang","Terbang"], jawaban:2}
+   ]},
+
+  // ---------------------------------------------------------------
+  // 4. RANTAI MAKANAN & JARING-JARING MAKANAN
+  // ---------------------------------------------------------------
+  {id:4,judul:"Rantai Makanan & Jaring-Jaring Makanan",topik:"Makhluk Hidup",kelas:"Kelas 6",tag:"t-hayati",bg:"bg-g",bgico:"bg-g2",ico:"🍃",tgl:"25 Jun 2026",durasi:"7 menit",
+   desc:"Mengenal peran produsen, konsumen, dan pengurai dalam peristiwa makan dan dimakan di suatu ekosistem.",
+   video:"https://www.youtube.com/embed/pKpWvj3QVe0",
+   konten:`<h3>🔗 Apa itu Rantai Makanan?</h3>
+<p>Rantai makanan adalah peristiwa makan dan dimakan antarmakhluk hidup yang terjadi secara berurutan dalam suatu ekosistem.</p>
+<h3>📋 Peran dalam Rantai Makanan</h3>
+<ul>
+<li><strong>Produsen</strong>: tumbuhan hijau yang membuat makanan sendiri melalui fotosintesis.</li>
+<li><strong>Konsumen tingkat I</strong>: hewan pemakan tumbuhan (herbivora), contoh belalang, kambing.</li>
+<li><strong>Konsumen tingkat II</strong>: hewan pemakan konsumen tingkat I (karnivora), contoh katak.</li>
+<li><strong>Konsumen tingkat III (puncak)</strong>: hewan pemakan konsumen tingkat II, contoh ular, elang.</li>
+<li><strong>Pengurai</strong>: bakteri dan jamur yang menguraikan makhluk hidup yang telah mati.</li>
+</ul>
+<div class="contoh"><div class="contoh-label">Contoh Rantai Makanan</div>padi → tikus → ular → elang → pengurai</div>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Foodweb.svg/1200px-Foodweb.svg.png" alt="Jaring-jaring makanan" onerror="this.onerror=null;this.src='https://placehold.co/800x400/16a34a/ffffff?text=Jaring-Jaring+Makanan';">
+  <figcaption>Contoh jaring-jaring makanan</figcaption>
+</figure>
+<p>Jika dalam suatu ekosistem terdapat banyak rantai makanan yang saling berhubungan, maka disebut <strong>jaring-jaring makanan</strong>.</p>
+<div class="video-wrap"><iframe src="https://www.youtube.com/embed/pKpWvj3QVe0" title="Video Rantai Makanan" allowfullscreen loading="lazy"></iframe></div><a class="video-alt-link" href="https://www.youtube.com/watch?v=pKpWvj3QVe0" target="_blank" rel="noopener">🎬 Video tidak muncul? klik di sini</a>
+<h4>🎈 Contoh Penerapan Sehari-hari</h4>
+<p>Petani menjaga populasi ular dan burung hantu di sawah karena keduanya membantu mengendalikan jumlah tikus secara alami, sehingga tanaman padi tidak rusak.</p>
+<div class="warn-box">🌟 <strong>Fakta Menarik:</strong> Jika satu mata rantai hilang (misalnya ular punah), populasi tikus bisa meningkat tak terkendali dan merusak tanaman petani!</div>
+<h3>📌 Kesimpulan</h3>
+<p>Rantai makanan menggambarkan peristiwa makan dan dimakan secara berurutan. Jaring-jaring makanan adalah gabungan beberapa rantai makanan yang saling berkaitan.</p>`,
+   quiz:[
+     {q:"Makhluk hidup yang dapat membuat makanannya sendiri disebut?", opsi:["Konsumen","Produsen","Pengurai","Predator"], jawaban:1},
+     {q:"Hewan pemakan tumbuhan disebut?", opsi:["Karnivora","Omnivora","Herbivora","Insektivora"], jawaban:2},
+     {q:"Dalam rantai makanan padi-tikus-ular-elang, konsumen puncak adalah?", opsi:["Padi","Tikus","Ular","Elang"], jawaban:3},
+     {q:"Jamur dan bakteri dalam ekosistem berperan sebagai?", opsi:["Produsen","Konsumen I","Konsumen II","Pengurai"], jawaban:3},
+     {q:"Gabungan beberapa rantai makanan yang saling berhubungan disebut?", opsi:["Ekosistem","Habitat","Jaring-jaring makanan","Populasi"], jawaban:2},
+     {q:"Jika populasi ular di sawah berkurang drastis, yang terjadi adalah?", opsi:["Padi tumbuh subur","Populasi tikus meningkat","Elang bertambah banyak","Tidak ada pengaruh"], jawaban:1}
+   ]},
+
+  // ---------------------------------------------------------------
+  // 5. ENERGI DAN PERUBAHANNYA
+  // ---------------------------------------------------------------
+  {id:5,judul:"Energi dan Perubahannya",topik:"Energi & Listrik",kelas:"Kelas 6",tag:"t-energi",bg:"bg-y",bgico:"bg-y2",ico:"⚡",tgl:"24 Jun 2026",durasi:"6 menit",
+   desc:"Mengenal bentuk-bentuk energi dan bagaimana energi dapat berubah dari satu bentuk ke bentuk lain.",
+   video:"https://www.youtube.com/embed/nuH1lNBXLRw",
+   konten:`<h3>⚡ Apa itu Energi?</h3>
+<p>Energi adalah kemampuan untuk melakukan usaha atau kerja. Energi tidak dapat dilihat langsung, namun dapat dirasakan akibatnya, seperti panas, gerak, atau cahaya.</p>
+<h3>🔋 Bentuk-Bentuk Energi</h3>
+<p>Beberapa bentuk energi yang sering kita jumpai: energi panas, energi cahaya, energi gerak (kinetik), energi listrik, energi kimia, energi bunyi, dan energi potensial.</p>
+<h3>🔁 Perubahan Bentuk Energi</h3>
+<div class="contoh"><div class="contoh-label">Contoh Perubahan Energi</div>
+🔌 Setrika listrik: energi listrik → energi panas<br>
+🌀 Kipas angin: energi listrik → energi gerak<br>
+☀️ Panel surya: energi cahaya → energi listrik<br>
+🔋 Aki mobil: energi kimia → energi listrik<br>
+🎸 Gitar dipetik: energi gerak → energi bunyi</div>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Solar_Panels_at_Bhadla_Solar_Park.jpg/1200px-Solar_Panels_at_Bhadla_Solar_Park.jpg" alt="Panel surya" onerror="this.onerror=null;this.src='https://placehold.co/800x400/f59e0b/ffffff?text=Energi+Terbarukan';">
+  <figcaption>Panel surya mengubah energi cahaya menjadi listrik</figcaption>
+</figure>
+<h3>♻️ Energi Terbarukan dan Tak Terbarukan</h3>
+<p>Sumber energi dibedakan menjadi <strong>energi terbarukan</strong> (tidak akan habis: matahari, angin, air, panas bumi) dan <strong>energi tak terbarukan</strong> (akan habis: minyak bumi, batu bara, gas alam).</p>
+<div class="video-wrap"><iframe src="https://www.youtube.com/embed/nuH1lNBXLRw" title="Video Energi" allowfullscreen loading="lazy"></iframe></div><a class="video-alt-link" href="https://www.youtube.com/watch?v=nuH1lNBXLRw" target="_blank" rel="noopener">🎬 Video tidak muncul? klik di sini</a>
+<h4>🎈 Contoh Penerapan Sehari-hari</h4>
+<p>Penggunaan panel surya di atap rumah memanfaatkan energi cahaya matahari diubah menjadi listrik untuk menyalakan lampu dan alat elektronik, menghemat listrik PLN.</p>
+<div class="warn-box">🌟 <strong>Fakta Menarik:</strong> Energi tidak dapat diciptakan atau dimusnahkan, hanya dapat diubah dari satu bentuk ke bentuk lainnya. Ini disebut Hukum Kekekalan Energi!</div>
+<h3>📌 Kesimpulan</h3>
+<p>Energi adalah kemampuan melakukan usaha yang dapat berubah dari satu bentuk ke bentuk lain. Kita perlu bijak menggunakan energi, terutama beralih ke sumber energi terbarukan.</p>`,
+   quiz:[
+     {q:"Energi adalah kemampuan untuk melakukan...", opsi:["Gerakan","Usaha atau kerja","Perubahan warna","Pertumbuhan"], jawaban:1},
+     {q:"Pada setrika listrik, energi listrik berubah menjadi energi?", opsi:["Cahaya","Bunyi","Panas","Gerak"], jawaban:2},
+     {q:"Panel surya mengubah energi cahaya menjadi energi?", opsi:["Panas","Listrik","Kimia","Bunyi"], jawaban:1},
+     {q:"Berikut yang termasuk sumber energi terbarukan adalah?", opsi:["Batu bara","Minyak bumi","Sinar matahari","Gas alam"], jawaban:2},
+     {q:"Hukum kekekalan energi menyatakan bahwa energi...", opsi:["Bisa diciptakan","Bisa dimusnahkan","Hanya bisa berubah bentuk","Selalu bertambah"], jawaban:2},
+     {q:"Saat gitar dipetik, energi gerak berubah menjadi energi?", opsi:["Panas","Bunyi","Cahaya","Listrik"], jawaban:1}
+   ]},
+  // ---------------------------------------------------------------
+  // 6. LISTRIK DAN KONDUKTOR
+  // ---------------------------------------------------------------
+  {id:6,judul:"Listrik dan Konduktor",topik:"Energi & Listrik",kelas:"Kelas 6",tag:"t-energi",bg:"bg-y",bgico:"bg-y2",ico:"🔌",tgl:"23 Jun 2026",durasi:"6 menit",
+   desc:"Memahami rangkaian listrik sederhana serta perbedaan bahan konduktor dan isolator.",
+   video:"https://youtu.be/embed/HPVWZtUIuos",
+   konten:`<h3>🔌 Rangkaian Listrik Sederhana</h3>
+<p>Listrik adalah salah satu bentuk energi yang dihasilkan dari aliran elektron. Listrik mengalir melalui suatu rangkaian listrik yang terdiri dari sumber energi (baterai), penghantar (kabel), dan beban (lampu).</p>
+<h3>🔀 Rangkaian Seri vs Paralel</h3>
+<ul>
+<li><strong>Rangkaian seri</strong>: disusun berurutan dalam satu jalur. Jika salah satu lampu mati, semua lampu ikut mati.</li>
+<li><strong>Rangkaian paralel</strong>: disusun bercabang. Jika salah satu lampu mati, lampu lain tetap menyala.</li>
+</ul>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Simple_electric_circuit.png/800px-Simple_electric_circuit.png" alt="Rangkaian listrik sederhana" onerror="this.onerror=null;this.src='https://placehold.co/800x400/f59e0b/ffffff?text=Rangkaian+Listrik';">
+  <figcaption>Rangkaian listrik sederhana</figcaption>
+</figure>
+<h3>⚙️ Konduktor dan Isolator</h3>
+<div class="contoh"><div class="contoh-label">Perbedaan Bahan</div>
+🔧 <strong>Konduktor</strong> (menghantarkan listrik): besi, tembaga, aluminium<br>
+🧤 <strong>Isolator</strong> (tidak menghantarkan listrik): plastik, karet, kayu, kaca</div>
+<div class="info-box">💡 Kabel listrik dilapisi karet/plastik (isolator) di luarnya agar aman disentuh, sementara bagian dalamnya tembaga (konduktor) agar listrik dapat mengalir.</div>
+<div class="video-wrap"><iframe src="https://youtu.be/embed/HPVWZtUIuos" title="Video Listrik" allowfullscreen loading="lazy"></iframe></div><a class="video-alt-link" href="https://youtu.be/HPVWZtUIuos?feature=shared" target="_blank" rel="noopener">🎬 Video tidak muncul?klik di sini</a>
+<h4>🎈 Contoh Penerapan Sehari-hari</h4>
+<p>Tukang listrik selalu menggunakan obeng dan tang dengan pegangan karet (isolator) agar terhindar dari sengatan listrik saat memperbaiki instalasi listrik di rumah.</p>
+<div class="warn-box">🌟 <strong>Fakta Menarik:</strong> Tubuh manusia juga bisa menghantarkan listrik karena mengandung banyak air dan mineral! Itulah mengapa kita harus berhati-hati terhadap listrik.</div>
+<h3>📌 Kesimpulan</h3>
+<p>Listrik mengalir melalui rangkaian seri atau paralel. Bahan konduktor menghantarkan listrik, sedangkan isolator tidak, dan berguna melindungi kita dari sengatan listrik.</p>`,
+   quiz:[
+     {q:"Bahan yang dapat menghantarkan listrik dengan baik disebut?", opsi:["Isolator","Konduktor","Semikonduktor","Resistor"], jawaban:1},
+     {q:"Berikut ini contoh bahan isolator adalah?", opsi:["Besi","Tembaga","Karet","Aluminium"], jawaban:2},
+     {q:"Pada rangkaian seri, jika satu lampu mati maka...", opsi:["Lampu lain tetap menyala","Semua lampu ikut mati","Tidak terjadi apa-apa","Lampu lain makin terang"], jawaban:1},
+     {q:"Rangkaian yang disusun bercabang disebut rangkaian?", opsi:["Seri","Paralel","Tunggal","Tertutup"], jawaban:1},
+     {q:"Kabel listrik bagian dalamnya terbuat dari logam tembaga karena tembaga bersifat?", opsi:["Isolator","Konduktor","Ringan","Murah"], jawaban:1},
+     {q:"Mengapa kabel listrik dilapisi karet di bagian luar?", opsi:["Agar terlihat menarik","Agar lebih ringan","Karena karet isolator sehingga aman disentuh","Agar listrik mengalir lebih cepat"], jawaban:2}
+   ]},
+
+  // ---------------------------------------------------------------
+  // 7. BUMI, BULAN, DAN MATAHARI
+  // ---------------------------------------------------------------
+  {id:7,judul:"Bumi, Bulan, dan Matahari",topik:"Langit & Bumi",kelas:"Kelas 6",tag:"t-langit",bg:"bg-b",bgico:"bg-b2",ico:"🌙",tgl:"22 Jun 2026",durasi:"7 menit",
+   desc:"Mengenal gerak rotasi-revolusi Bumi dan Bulan, fase Bulan, serta proses terjadinya gerhana.",
+   video:"https://youtu.be/embed/U7gzEifk8iQ",
+   konten:`<h3>🌍 Rotasi dan Revolusi Bumi</h3>
+<p>Bumi melakukan dua gerakan utama: <strong>rotasi</strong> (berputar pada sumbunya, menyebabkan siang dan malam, 24 jam) dan <strong>revolusi</strong> (mengelilingi Matahari, 365¼ hari, menyebabkan perubahan musim).</p>
+<h3>🌓 Fase-Fase Bulan</h3>
+<p>Bulan adalah satelit alami Bumi yang berevolusi mengelilingi Bumi selama kurang lebih 29,5 hari. Perubahan bentuk Bulan yang terlihat disebut <strong>fase Bulan</strong>: Bulan baru, sabit, separuh, purnama, lalu kembali ke Bulan baru.</p>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Lunar_phase_and_orbit.jpg/1200px-Lunar_phase_and_orbit.jpg" alt="Fase Bulan" onerror="this.onerror=null;this.src='https://placehold.co/800x400/2563eb/ffffff?text=Fase+Bulan';">
+  <figcaption>Fase-fase Bulan saat mengelilingi Bumi</figcaption>
+</figure>
+<h3>🌑 Gerhana Matahari dan Gerhana Bulan</h3>
+<ul>
+<li><strong>Gerhana Matahari</strong>: terjadi saat Bulan berada di antara Matahari dan Bumi, sehingga Bulan menutupi cahaya Matahari. Terjadi siang hari saat fase Bulan baru.</li>
+<li><strong>Gerhana Bulan</strong>: terjadi saat Bumi berada di antara Matahari dan Bulan, sehingga bayangan Bumi menutupi Bulan. Terjadi malam hari saat fase Bulan purnama.</li>
+</ul>
+<div class="video-wrap"><iframe src="https://youtu.be/embed/U7gzEifk8iQ" title="Video Bumi Bulan Matahari" allowfullscreen loading="lazy"></iframe></div><a class="video-alt-link" href="https://youtu.be/U7gzEifk8iQ?feature=shared" target="_blank" rel="noopener">🎬 Video tidak muncul? klik di sini</a>
+<h4>🎈 Contoh Penerapan Sehari-hari</h4>
+<p>Nelayan tradisional menggunakan fase Bulan untuk menentukan waktu pasang-surut air laut, karena gravitasi Bulan mempengaruhi ketinggian air laut.</p>
+<div class="warn-box">🌟 <strong>Fakta Menarik:</strong> Bulan tidak memiliki cahaya sendiri. Cahaya yang kita lihat adalah pantulan cahaya Matahari yang mengenai permukaannya!</div>
+<h3>📌 Kesimpulan</h3>
+<p>Bumi dan Bulan bergerak melalui rotasi dan revolusi yang menyebabkan siang-malam, musim, dan fase Bulan. Gerhana terjadi akibat posisi Bumi, Bulan, Matahari yang sejajar.</p>`,
+   quiz:[
+     {q:"Perputaran Bumi pada sumbunya disebut?", opsi:["Revolusi","Rotasi","Orbit","Gravitasi"], jawaban:1},
+     {q:"Waktu yang dibutuhkan Bulan untuk mengelilingi Bumi adalah sekitar?", opsi:["24 jam","7 hari","29,5 hari","365 hari"], jawaban:2},
+     {q:"Gerhana Matahari terjadi ketika?", opsi:["Bumi berada di antara Matahari dan Bulan","Bulan berada di antara Matahari dan Bumi","Matahari berada di antara Bumi dan Bulan","Bulan menjauh dari Bumi"], jawaban:1},
+     {q:"Cahaya yang dipancarkan Bulan sebenarnya berasal dari?", opsi:["Cahaya Bulan sendiri","Pantulan cahaya Matahari","Cahaya bintang","Cahaya Bumi"], jawaban:1},
+     {q:"Gerhana Bulan terjadi pada saat fase Bulan?", opsi:["Bulan baru","Bulan sabit","Bulan purnama","Bulan separuh"], jawaban:2},
+     {q:"Revolusi Bumi mengelilingi Matahari menyebabkan terjadinya?", opsi:["Siang dan malam","Pergantian musim","Gerhana setiap hari","Rotasi Bulan"], jawaban:1}
+   ]},
+
+  // ---------------------------------------------------------------
+  // 8. PELESTARIAN LINGKUNGAN
+  // ---------------------------------------------------------------
+  {id:8,judul:"Pelestarian Lingkungan",topik:"Lingkungan",kelas:"Kelas 6",tag:"t-lingk",bg:"bg-g",bgico:"bg-g2",ico:"🌳",tgl:"21 Jun 2026",durasi:"6 menit",
+   desc:"Memahami pentingnya menjaga lingkungan serta upaya pelestarian yang bisa dilakukan sehari-hari.",
+   video:"https://youtu.be/embed/t219MK0ZDjs",
+   konten:`<h3>🌍 Mengapa Lingkungan Perlu Dilestarikan?</h3>
+<p>Pelestarian lingkungan adalah upaya menjaga dan melindungi lingkungan agar tetap baik dan bermanfaat bagi generasi sekarang maupun yang akan datang.</p>
+<h3>⚠️ Contoh Kerusakan Lingkungan</h3>
+<ul>
+<li><strong>Deforestasi (penebangan hutan liar)</strong> menyebabkan banjir, tanah longsor, dan hilangnya habitat hewan.</li>
+<li><strong>Pencemaran air</strong> akibat limbah pabrik dan sampah membuat air tidak layak digunakan.</li>
+<li><strong>Pencemaran udara</strong> akibat asap kendaraan dan pabrik menyebabkan gangguan pernapasan.</li>
+</ul>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Reforestation.jpg/1200px-Reforestation.jpg" alt="Reboisasi" onerror="this.onerror=null;this.src='https://placehold.co/800x400/16a34a/ffffff?text=Pelestarian+Lingkungan';">
+  <figcaption>Kegiatan reboisasi atau penanaman kembali hutan</figcaption>
+</figure>
+<h3>♻️ Upaya Pelestarian Lingkungan</h3>
+<div class="contoh"><div class="contoh-label">Cara Melestarikan Lingkungan</div>
+🌱 Reboisasi (menanam kembali hutan gundul)<br>
+♻️ 3R: Reduce, Reuse, Recycle<br>
+💧 Hemat air dan listrik<br>
+🗑️ Memilah sampah organik dan anorganik</div>
+<div class="video-wrap"><iframe src="https://youtu.be/embed/t219MK0ZDjs" title="Video Pelestarian Lingkungan" allowfullscreen loading="lazy"></iframe></div><a class="video-alt-link" href="https://youtu.be/t219MK0ZDjs?feature=shared" target="_blank" rel="noopener">🎬 Video tidak muncul? klik di sini</a>
+<h4>🎈 Contoh Penerapan Sehari-hari</h4>
+<p>Di sekolah, siswa dapat membantu pelestarian lingkungan dengan memilah sampah, membawa botol minum sendiri, serta ikut menanam pohon saat kegiatan Adiwiyata.</p>
+<div class="warn-box">🌟 <strong>Fakta Menarik:</strong> Satu pohon dewasa dapat menyerap hingga 22 kg karbon dioksida (CO2) per tahun dan menghasilkan oksigen untuk dua orang bernapas selama setahun!</div>
+<h3>📌 Kesimpulan</h3>
+<p>Pelestarian lingkungan penting untuk menjaga keseimbangan alam. Setiap orang dapat berkontribusi melalui tindakan sederhana seperti hemat energi dan mengurangi sampah.</p>`,
+   quiz:[
+     {q:"Penebangan hutan secara liar disebut juga?", opsi:["Reboisasi","Deforestasi","Konservasi","Revitalisasi"], jawaban:1},
+     {q:"Konsep 3R dalam menjaga lingkungan adalah?", opsi:["Reduce, Reuse, Recycle","Read, Run, Rest","Reduce, Run, Repair","Reuse, Repeat, Run"], jawaban:0},
+     {q:"Penanaman kembali hutan yang gundul disebut?", opsi:["Reboisasi","Deforestasi","Urbanisasi","Erosi"], jawaban:0},
+     {q:"Salah satu akibat dari penebangan hutan secara liar adalah?", opsi:["Udara semakin bersih","Banjir dan tanah longsor","Hewan semakin banyak","Air semakin jernih"], jawaban:1},
+     {q:"Berikut yang termasuk sampah organik adalah?", opsi:["Botol plastik","Kulit buah","Kaleng bekas","Kantong plastik"], jawaban:1},
+     {q:"Manfaat pohon bagi lingkungan adalah?", opsi:["Menghasilkan karbon dioksida","Menyerap CO2 dan menghasilkan oksigen","Mencemari udara","Menyebabkan polusi"], jawaban:1}
+   ]},
+
+  // ---------------------------------------------------------------
+  // 9. CIRI-CIRI MAKHLUK HIDUP
+  // ---------------------------------------------------------------
+  {id:9,judul:"Ciri-Ciri Makhluk Hidup",topik:"Makhluk Hidup",kelas:"Kelas 6",tag:"t-hayati",bg:"bg-g",bgico:"bg-g2",ico:"🧬",tgl:"20 Jun 2026",durasi:"6 menit",
+   desc:"Mengenal ciri-ciri khas makhluk hidup yang membedakannya dengan benda mati.",
+   video:"https://youtu.be/embed/k-GOmSreKsg?",
+   konten:`<h3>🧬 Ciri-Ciri Makhluk Hidup</h3>
+<p>Makhluk hidup memiliki beberapa ciri khas yang membedakannya dengan benda mati:</p>
+<ul>
+<li><strong>Bernapas (respirasi)</strong>: membutuhkan oksigen dan mengeluarkan karbon dioksida.</li>
+<li><strong>Bergerak</strong>: hewan dan manusia bergerak aktif, tumbuhan bergerak terbatas seperti akar mencari air.</li>
+<li><strong>Membutuhkan makanan dan nutrisi</strong> untuk memperoleh energi.</li>
+<li><strong>Tumbuh dan berkembang</strong>: pertambahan ukuran tubuh dan kematangan organ.</li>
+<li><strong>Berkembang biak (reproduksi)</strong>: menghasilkan keturunan.</li>
+<li><strong>Peka terhadap rangsang (iritabilitas)</strong>: contohnya daun putri malu menutup saat disentuh.</li>
+<li><strong>Mengeluarkan zat sisa (ekskresi)</strong>: contohnya berkeringat dan urine.</li>
+<li><strong>Beradaptasi</strong> dengan lingkungan tempat hidupnya.</li>
+</ul>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Mimosa_pudica_Fechas10.JPG/1200px-Mimosa_pudica_Fechas10.JPG" alt="Putri malu" onerror="this.onerror=null;this.src='https://placehold.co/800x400/16a34a/ffffff?text=Ciri+Makhluk+Hidup';">
+  <figcaption>Putri malu menutup daun sebagai bentuk iritabilitas</figcaption>
+</figure>
+<div class="info-box">💡 Benda mati seperti batu atau meja tidak memiliki ciri-ciri tersebut karena tidak bernapas, tidak tumbuh, dan tidak berkembang biak sendiri.</div>
+<div class="video-wrap"><iframe src="https://youtu.be/embed/k-GOmSreKsg" title="Video Ciri Makhluk Hidup" allowfullscreen loading="lazy"></iframe></div><a class="video-alt-link" href="https://youtu.be/k-GOmSreKsg?feature=shared" target="_blank" rel="noopener">🎬 video tidak muncul? klik di sini </a>
+<h4>🎈 Contoh Penerapan Sehari-hari</h4>
+<p>Saat berolahraga, tubuh bernapas lebih cepat dan berkeringat — penerapan ciri makhluk hidup yaitu bernapas dan mengeluarkan zat sisa untuk menjaga suhu tubuh.</p>
+<div class="warn-box">🌟 <strong>Fakta Menarik:</strong> Daun putri malu langsung menutup dalam waktu kurang dari satu detik ketika disentuh, sebagai bentuk perlindungan diri!</div>
+<h3>📌 Kesimpulan</h3>
+<p>Makhluk hidup memiliki ciri bernapas, bergerak, membutuhkan makanan, tumbuh, berkembang biak, peka rangsang, ekskresi, dan beradaptasi — yang membedakannya dari benda mati.</p>`,
+   quiz:[
+     {q:"Berikut yang bukan termasuk ciri-ciri makhluk hidup adalah?", opsi:["Bernapas","Bergerak","Tidak membutuhkan makanan","Berkembang biak"], jawaban:2},
+     {q:"Kemampuan makhluk hidup untuk peka terhadap rangsang disebut?", opsi:["Adaptasi","Iritabilitas","Respirasi","Ekskresi"], jawaban:1},
+     {q:"Daun putri malu menutup saat disentuh adalah contoh ciri makhluk hidup yaitu?", opsi:["Tumbuh","Bergerak","Peka terhadap rangsang","Berkembang biak"], jawaban:2},
+     {q:"Proses pengeluaran zat sisa dari tubuh disebut?", opsi:["Respirasi","Ekskresi","Reproduksi","Adaptasi"], jawaban:1},
+     {q:"Mengapa batu tidak termasuk makhluk hidup?", opsi:["Karena keras","Karena tidak bernapas dan tidak berkembang biak","Karena berwarna abu-abu","Karena tidak bisa dipindahkan"], jawaban:1},
+     {q:"Pertambahan ukuran tubuh pada makhluk hidup disebut?", opsi:["Berkembang","Tumbuh","Bergerak","Beradaptasi"], jawaban:1}
+   ]},
+
+  // ---------------------------------------------------------------
+  // 10. EKOSISTEM
+  // ---------------------------------------------------------------
+  {id:10,judul:"Ekosistem",topik:"Lingkungan",kelas:"Kelas 6",tag:"t-lingk",bg:"bg-g",bgico:"bg-g2",ico:"🌐",tgl:"19 Jun 2026",durasi:"7 menit",
+   desc:"Memahami hubungan timbal balik antara makhluk hidup dan lingkungannya dalam suatu ekosistem.",
+   video:"https://youtu.be/embed/ThxJOMUCYds",
+   konten:`<h3>🌐 Apa itu Ekosistem?</h3>
+<p>Ekosistem adalah hubungan timbal balik antara makhluk hidup dengan lingkungannya di suatu tempat tertentu, melibatkan interaksi antara komponen biotik dan abiotik.</p>
+<h3>📋 Komponen Ekosistem</h3>
+<ul>
+<li><strong>Komponen biotik</strong>: seluruh makhluk hidup — tumbuhan, hewan, manusia.</li>
+<li><strong>Komponen abiotik</strong>: benda tak hidup yang mendukung kehidupan — air, tanah, udara, cahaya matahari, suhu.</li>
+</ul>
+<h3>🏞️ Jenis Ekosistem</h3>
+<div class="contoh"><div class="contoh-label">Ekosistem Alami vs Buatan</div>
+🌳 <strong>Ekosistem alami</strong>: hutan, laut, sungai, padang rumput<br>
+🐟 <strong>Ekosistem buatan</strong>: sawah, kolam ikan, akuarium, perkebunan</div>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Tropical_Rainforest_Ecosystem.png/1200px-Tropical_Rainforest_Ecosystem.png" alt="Ekosistem hutan hujan tropis" onerror="this.onerror=null;this.src='https://placehold.co/800x400/16a34a/ffffff?text=Ekosistem';">
+  <figcaption>Ekosistem hutan hujan tropis</figcaption>
+</figure>
+<p>Tingkatan organisasi kehidupan: <strong>individu</strong> (satu makhluk hidup tunggal) → <strong>populasi</strong> (kumpulan individu sejenis) → <strong>komunitas</strong> (kumpulan populasi) → <strong>ekosistem</strong>.</p>
+<div class="video-wrap"><iframe src="https://youtu.be/embed/ThxJOMUCYds" title="Video Ekosistem" allowfullscreen loading="lazy"></iframe></div><a class="video-alt-link" href="https://youtu.be/ThxJOMUCYds?feature=shared" target="_blank" rel="noopener">🎬 Video tidak muncul? klik di sini</a>
+<h4>🎈 Contoh Penerapan Sehari-hari</h4>
+<p>Akuarium di rumah adalah contoh ekosistem buatan sederhana — ikan (biotik) hidup bersama air, batu, dan tanaman air (abiotik) yang saling berinteraksi.</p>
+<div class="warn-box">🌟 <strong>Fakta Menarik:</strong> Hutan hujan tropis hanya menutupi sekitar 6% permukaan Bumi, tapi menjadi rumah bagi lebih dari 50% spesies tumbuhan dan hewan di dunia!</div>
+<h3>📌 Kesimpulan</h3>
+<p>Ekosistem merupakan interaksi antara komponen biotik dan abiotik. Ekosistem dapat alami maupun buatan, dan keseimbangannya perlu dijaga agar makhluk hidup di dalamnya bertahan.</p>`,
+   quiz:[
+     {q:"Hubungan timbal balik antara makhluk hidup dan lingkungannya disebut?", opsi:["Adaptasi","Habitat","Ekosistem","Populasi"], jawaban:2},
+     {q:"Berikut yang termasuk komponen abiotik adalah?", opsi:["Tumbuhan","Hewan","Air dan tanah","Manusia"], jawaban:2},
+     {q:"Contoh ekosistem buatan adalah?", opsi:["Hutan","Laut","Sawah","Padang rumput"], jawaban:2},
+     {q:"Kumpulan individu sejenis yang hidup di suatu tempat disebut?", opsi:["Komunitas","Populasi","Ekosistem","Habitat"], jawaban:1},
+     {q:"Berikut yang termasuk komponen biotik adalah?", opsi:["Udara","Cahaya matahari","Suhu","Tumbuhan"], jawaban:3},
+     {q:"Hutan hujan tropis termasuk jenis ekosistem?", opsi:["Buatan","Alami","Campuran","Sementara"], jawaban:1}
+   ]},
+];
+
+/* ===================================================================
+   BAGIAN B. DATA TOPIK (untuk grid "Topik IPA Kelas 6" di beranda)
+   Tiap topik terhubung ke kategori (field "topik") pada array MATERI.
+   =================================================================== */
+const TOPIK_DATA = [
+  {nama:"Tata Surya", kategori:"Langit & Bumi", ico:"🪐", kelas:"c1"},
+  {nama:"Perkembangbiakan", kategori:"Makhluk Hidup", ico:"🌱", kelas:"c2"},
+  {nama:"Adaptasi", kategori:"Makhluk Hidup", ico:"🦎", kelas:"c2"},
+  {nama:"Rantai Makanan", kategori:"Makhluk Hidup", ico:"🍃", kelas:"c2"},
+  {nama:"Energi", kategori:"Energi & Listrik", ico:"⚡", kelas:"c3"},
+  {nama:"Listrik", kategori:"Energi & Listrik", ico:"🔌", kelas:"c3"},
+  {nama:"Bumi & Bulan", kategori:"Langit & Bumi", ico:"🌙", kelas:"c1"},
+  {nama:"Lingkungan", kategori:"Lingkungan", ico:"🌳", kelas:"c4"},
+  {nama:"Ciri Makhluk Hidup", kategori:"Makhluk Hidup", ico:"🧬", kelas:"c2"},
+  {nama:"Ekosistem", kategori:"Lingkungan", ico:"🌐", kelas:"c4"},
+];
+
+/* ===================================================================
+   BAGIAN C. DATA TIPS BELAJAR (untuk halaman Tips Belajar)
+   =================================================================== */
+const TIPS_DATA = [
+  {ico:"⏰",title:"Buat Jadwal Belajar Rutin",desc:"Belajar di waktu yang sama setiap hari melatih otak untuk fokus secara otomatis.",
+   steps:["Tentukan jam belajar tetap (misal: 16.00–17.30)","Istirahat 5–10 menit setiap 45 menit belajar","Patuhi jadwal meski hari libur"]},
+  {ico:"📓",title:"Buat Catatan Bergambar",desc:"Mencatat dengan diagram dan gambar sederhana memperkuat pemahaman tentang proses IPA.",
+   steps:["Gambar diagram daur hidup atau rantai makanan","Gunakan warna berbeda untuk istilah penting","Tulis ulang setelah belajar selesai"]},
+  {ico:"🔬",title:"Amati Lingkungan Sekitar",desc:"IPA adalah ilmu tentang alam, jadi amati langsung tumbuhan, hewan, dan fenomena di sekitarmu.",
+   steps:["Amati pertumbuhan tanaman di rumah","Perhatikan perubahan cuaca setiap hari","Catat hewan-hewan yang kamu temui"]},
+  {ico:"✏️",title:"Rajin Kerjakan Kuis",desc:"Mengerjakan kuis secara rutin membantu mengingat materi lebih lama dan menemukan bagian yang belum dipahami.",
+   steps:["Kerjakan kuis setelah membaca setiap materi","Ulangi kuis pada materi yang skornya masih rendah","Catat soal yang salah dan pelajari ulang"]},
+  {ico:"🎬",title:"Tonton Video Pembelajaran",desc:"Video membantu memvisualisasikan proses yang sulit dibayangkan, seperti gerhana atau metamorfosis.",
+   steps:["Tonton video sebelum membaca penjelasan teks","Ulangi bagian yang belum dipahami","Diskusikan isi video dengan teman atau keluarga"]},
+  {ico:"🙋",title:"Jangan Takut Bertanya",desc:"Bertanya adalah tanda kecerdasan, bukan kelemahan. Segera tanyakan jika ada yang belum paham.",
+   steps:["Catat daftar pertanyaan saat belajar","Tanyakan kepada guru di kelas","Manfaatkan waktu istirahat untuk berdiskusi"]},
+];
+
+/* ===================================================================
+   BAGIAN D. STATE APLIKASI
+   =================================================================== */
+let currentFilter = 'Semua';
+let prevPage = 'materi';
+let currentDetailId = null;
+const quizState = {}; // {materiId: {qIndex: opsiIndex}}
+const completed = JSON.parse(localStorage.getItem("ipa_completed") || "[]");
+
+/* ===================================================================
+   BAGIAN E. NAVIGASI ANTAR HALAMAN (showPage)
+   =================================================================== */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button[id^=nav]').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const nb = document.getElementById('nav-' + name);
+  if(nb) nb.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='beranda'){ renderHomeArtikel(); renderTopikGrid(); updateHomeProgress(); }
+  if(name==='progres') renderProgres();
+  if(name==='tips') renderTips();
+}
+
+/* ===================================================================
+   BAGIAN F. RENDER GRID TOPIK & ARTIKEL DI BERANDA
+   =================================================================== */
+function renderTopikGrid(){
+  const el = document.getElementById('topik-grid');
+  el.innerHTML = TOPIK_DATA.map(t => `
+    <button class="mc ${t.kelas}" onclick="filterMateri('${t.kategori}')">
+      <div class="mc-ico">${t.ico}</div>
+      <div class="mc-name">${t.nama}</div>
+      <div class="mc-sub">${t.kategori}</div>
+    </button>`).join('');
+}
+
+function renderHomeArtikel() {
+  const el = document.getElementById('home-artikel');
+  el.innerHTML = MATERI.map(m => `
+    <button class="art-card" onclick="showDetail(${m.id},'beranda')">
+      ${completed.includes(m.id) ? '<div class="art-done-badge">✓</div>' : ''}
+      <div class="art-thumb ${m.bg}">${m.ico}</div>
+      <div class="art-body">
+        <span class="art-tag ${m.tag}">${m.topik}</span>
+        <div class="art-title">${m.judul} – ${m.kelas}</div>
+        <div class="art-meta"><span>📅 ${m.tgl}</span><span>⏱ ${m.durasi}</span></div>
+      </div>
+    </button>`).join('');
+}
+
+/* ===================================================================
+   BAGIAN G. RENDER & FILTER HALAMAN MATERI (LIST)
+   =================================================================== */
+function renderMateri(filter='Semua') {
+  const el = document.getElementById('materi-list');
+  const items = filter==='Semua' ? MATERI : MATERI.filter(m=>m.topik===filter);
+  if(items.length === 0){
+    el.innerHTML = `<p style="text-align:center;color:var(--abu);padding:2rem;grid-column:1/-1;">Materi tidak ditemukan.</p>`;
+    return;
+  }
+  el.innerHTML = items.map(m => `
+    <button class="materi-card" onclick="showDetail(${m.id},'materi')">
+      ${completed.includes(m.id) ? '<div class="mc-done">✓</div>' : ''}
+      <div class="mc-head">
+        <div class="mc-ico2 ${m.bgico}">${m.ico}</div>
+        <div class="mc-info">
+          <div class="mc-mapel">${m.topik}</div>
+          <div class="mc-judul">${m.judul}</div>
+        </div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-desc">${m.desc}</div>
+        <div class="mc-footer">
+          <span class="mc-kelas">${m.kelas}</span>
+          <span class="mc-arrow">→</span>
+        </div>
+      </div>
+    </button>`).join('');
+}
+
+function filterMateri(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b=>{
+    b.classList.toggle('active', btn ? b===btn : b.textContent.includes(f) || (f==='Semua' && b.textContent.trim()==='Semua'));
+  });
+  renderMateri(f);
+  showPage('materi');
+}
+
+/* ===================================================================
+   BAGIAN H. HALAMAN DETAIL MATERI + KUIS
+   =================================================================== */
+function showDetail(id, from) {
+  prevPage = from;
+  currentDetailId = id;
+  const m = MATERI.find(x=>x.id===id);
+  if(!m) return;
+  document.getElementById('detail-header-title').textContent = m.judul;
+  document.getElementById('detail-header-sub').textContent = m.topik + ' · ' + m.kelas;
+  document.getElementById('detail-breadcrumb').innerHTML = `Beranda › Materi › <span>${m.topik}</span>`;
+  document.getElementById('detail-tags').innerHTML = `<span class="detail-tag ${m.tag}">${m.topik}</span><span class="detail-tag" style="background:#f3f4f6;color:#374151;">${m.kelas}</span>`;
+  document.getElementById('detail-title').textContent = m.judul;
+  document.getElementById('detail-meta').innerHTML = `<span>📅 ${m.tgl}</span><span>⏱ ${m.durasi} baca</span>${completed.includes(m.id) ? '<span style="color:var(--hijau);font-weight:800;">✓ Kuis Selesai</span>' : ''}`;
+  document.getElementById('detail-content').innerHTML = m.konten;
+  renderQuiz(m);
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-detail').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function backFromDetail() { showPage(prevPage); }
+
+// --- Render kuis interaktif di dalam halaman detail ---
+function renderQuiz(m){
+  quizState[m.id] = quizState[m.id] || {};
+  const body = document.getElementById('quiz-body');
+  let html = "";
+  m.quiz.forEach((q, qi) => {
+    html += `
+      <div class="soal-box" data-qi="${qi}">
+        <div class="soal-no">Soal ${qi+1}</div>
+        <p class="q-text">${q.q}</p>
+        ${q.opsi.map((op,oi) => `
+          <button class="opsi-btn" data-oi="${oi}" onclick="selectOpsi(${m.id},${qi},${oi})">
+            ${String.fromCharCode(65+oi)}. ${op}
+          </button>`).join('')}
+      </div>`;
+  });
+  html += `
+    <div class="quiz-btn-row">
+      <button class="btn-quiz-submit" onclick="submitQuiz(${m.id})">📨 Kumpulkan Jawaban</button>
+      <button class="btn-quiz-reset" onclick="resetQuiz(${m.id})">🔄 Ulangi Kuis</button>
+    </div>
+    <div class="quiz-result-box" id="quizResult-${m.id}"></div>`;
+  body.innerHTML = html;
+}
+
+function selectOpsi(materiId, qIndex, oIndex){
+  quizState[materiId][qIndex] = oIndex;
+  const box = document.querySelector(`#quiz-body .soal-box[data-qi="${qIndex}"]`);
+  box.querySelectorAll('.opsi-btn').forEach(b=>b.classList.remove('selected'));
+  box.querySelector(`.opsi-btn[data-oi="${oIndex}"]`).classList.add('selected');
+}
+
+function submitQuiz(materiId){
+  const m = MATERI.find(x=>x.id===materiId);
+  const answers = quizState[materiId] || {};
+  if(Object.keys(answers).length < m.quiz.length){
+    alert("Yuk, jawab semua soal terlebih dahulu sebelum mengumpulkan! 😊");
+    return;
+  }
+  let correctCount = 0;
+  m.quiz.forEach((q, qi) => {
+    const box = document.querySelector(`#quiz-body .soal-box[data-qi="${qi}"]`);
+    const userAnswer = answers[qi];
+    box.querySelectorAll('.opsi-btn').forEach((btn,oi) => {
+      btn.disabled = true;
+      if(oi === q.jawaban) btn.classList.add('correct');
+      else if(oi === userAnswer && userAnswer !== q.jawaban) btn.classList.add('wrong');
+    });
+    if(userAnswer === q.jawaban) correctCount++;
+  });
+  const total = m.quiz.length;
+  const score = Math.round((correctCount/total)*100);
+  const resultBox = document.getElementById(`quizResult-${materiId}`);
+  let pesan;
+  if(score >= 80) pesan = "Luar biasa! Kamu sudah sangat memahami materi ini! 🎉";
+  else if(score >= 60) pesan = "Bagus! Sedikit lagi untuk lebih memahami materi ini. 👍";
+  else pesan = "Ayo coba pelajari lagi materinya, lalu ulangi kuisnya ya! 💪";
+  resultBox.innerHTML = `
+    <div class="score-num">${score}</div>
+    <p>Skor kamu: <strong>${correctCount}/${total}</strong> jawaban benar</p>
+    <p>${pesan}</p>`;
+  resultBox.classList.add('show');
+
+  if(!completed.includes(materiId)){
+    completed.push(materiId);
+    localStorage.setItem("ipa_completed", JSON.stringify(completed));
+  }
+  document.getElementById('detail-meta').innerHTML = `<span>📅 ${m.tgl}</span><span>⏱ ${m.durasi} baca</span><span style="color:var(--hijau);font-weight:800;">✓ Kuis Selesai</span>`;
+
+  if(completed.length === MATERI.length){
+    setTimeout(showCertificate, 600);
+  }
+}
+
+function resetQuiz(materiId){
+  quizState[materiId] = {};
+  const m = MATERI.find(x=>x.id===materiId);
+  renderQuiz(m);
+}
+
+/* ===================================================================
+   BAGIAN I. HALAMAN PROGRES BELAJAR
+   =================================================================== */
+function renderProgres(){
+  const el = document.getElementById('progres-list');
+  document.getElementById('progresPageTitle').textContent = `${completed.length} dari ${MATERI.length} Materi Selesai`;
+  el.innerHTML = MATERI.map(m => {
+    const done = completed.includes(m.id);
+    return `
+    <button class="kelas-card" onclick="showDetail(${m.id},'progres')">
+      <div class="kelas-head">
+        <div class="kelas-num" style="background:${done ? '#16a34a' : '#94a3b8'};">${done ? '✓' : m.ico}</div>
+        <div class="kelas-info">
+          <h3>${m.judul}</h3>
+          <p>${m.topik} · ${m.kelas}</p>
+        </div>
+      </div>
+      <div class="kelas-mapel-list">
+        <span class="kelas-mapel-chip">${done ? 'Kuis Selesai ✓' : 'Belum Dikerjakan'}</span>
+      </div>
+    </button>`;
+  }).join('');
+}
+
+function updateHomeProgress(){
+  const percent = Math.round((completed.length / MATERI.length) * 100);
+  document.getElementById('statSelesai').textContent = completed.length;
+  document.getElementById('progresLabelHome').textContent = percent + '%';
+  document.getElementById('progresFillHome').style.width = percent + '%';
+}
+
+/* ===================================================================
+   BAGIAN J. SERTIFIKAT
+   =================================================================== */
+function showCertificate(){
+  let nama = localStorage.getItem("ipa_nama_siswa");
+  if(!nama){
+    nama = prompt("Selamat! Kamu telah menyelesaikan semua kuis! 🎉\nMasukkan namamu untuk sertifikat:") || "Siswa Hebat";
+    localStorage.setItem("ipa_nama_siswa", nama);
+  }
+  document.getElementById('certName').textContent = nama;
+  document.getElementById('certOverlay').classList.add('show');
+}
+function tryShowCertificate(){
+  if(completed.length === MATERI.length){
+    showCertificate();
+  } else {
+    alert(`Selesaikan dulu seluruh kuis untuk mendapatkan sertifikat!\nProgresmu saat ini: ${completed.length} dari ${MATERI.length} materi.`);
+  }
+}
+document.getElementById('closeCert').addEventListener('click', () => {
+  document.getElementById('certOverlay').classList.remove('show');
+});
+
+/* ===================================================================
+   BAGIAN K. HALAMAN TIPS BELAJAR
+   =================================================================== */
+function renderTips() {
+  const el = document.getElementById('tips-list');
+  el.innerHTML = TIPS_DATA.map(t => `
+    <div class="tips-full-card fade-in">
+      <div class="tf-ico">${t.ico}</div>
+      <div class="tf-title">${t.title}</div>
+      <div class="tf-desc">${t.desc}</div>
+      <ul class="tf-steps">${t.steps.map(s=>`<li>${s}</li>`).join('')}</ul>
+    </div>`).join('');
+}
+
+/* ===================================================================
+   BAGIAN L. FOOTER — daftar topik dinamis
+   =================================================================== */
+function renderFooterTopik(){
+  const kategoriUnik = [...new Set(MATERI.map(m=>m.topik))];
+  const el = document.getElementById('footer-topik-list');
+  el.innerHTML = kategoriUnik.map(k => `<li><button onclick="filterMateri('${k}')">${k}</button></li>`).join('');
+}
+
+/* ===================================================================
+   BAGIAN M. INISIALISASI AWAL APLIKASI
+   =================================================================== */
+renderHomeArtikel();
+renderTopikGrid();
+renderMateri();
+renderTips();
+renderFooterTopik();
+updateHomeProgress();
+</script>
+
+</body>
+</html>
